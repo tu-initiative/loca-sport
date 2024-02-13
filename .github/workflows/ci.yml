@@ -4,13 +4,14 @@ on:
   pull_request:
     branches:
       - dev
+      - master
 
 permissions:
   actions: read
   contents: read
 
 jobs:
-  main:
+  code_quality_and_build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
