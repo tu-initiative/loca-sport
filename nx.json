@@ -54,5 +54,23 @@
     ],
     "sharedGlobals": []
   },
-  "nxCloudAccessToken": "NzMyNTE3ZDEtNzdmNi00MGNhLWI0YmYtMGFjY2Q3NzA2YTFkfHJlYWQtd3JpdGU="
+  "nxCloudAccessToken": "NzMyNTE3ZDEtNzdmNi00MGNhLWI0YmYtMGFjY2Q3NzA2YTFkfHJlYWQtd3JpdGU=",
+  "plugins": [
+    {
+      "plugin": "@nx/next/plugin",
+      "options": {
+        "buildTargetName": "build",
+        "devTargetName": "dev",
+        "startTargetName": "start"
+      }
+    }
+  ],
+  "generators": {
+    "@nx/next": {
+      "application": {
+        "style": "css",
+        "linter": "eslint"
+      }
+    }
+  }
 }
