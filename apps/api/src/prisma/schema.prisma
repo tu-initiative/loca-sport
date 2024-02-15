@@ -1,0 +1,65 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator nestgraphql {
+  provider    = "prisma-nestjs-graphql"
+  output      = "../prisma/graphql"
+  purgeOutput = true
+  emitSingle  = true
+}
+
+model User {
+  id String @id @default(uuid())
+
+  avatarId String?
+  avatar   File?   @relation(fields: [avatarId], references: [id])
+
+  firstName     String
+  lastName      String
+  email         String     @unique
+  emailVerified Boolean    @default(false)
+  password      String
+  phoneNumber   String
+  status        UserStatus @default(active)
+  role          UserRole   @default(owner)
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  deletedAt     DateTime?
+}
+
+model File {
+  id        String        @id @default(uuid())
+  url       String
+  storageId String        @unique()
+  provider  FileProvider? @default(cloudinary)
+  metadata  Json?
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+  deletedAt DateTime?
+  users     User[]
+}
+
+enum UserStatus {
+  active
+  inactive
+}
+
+enum UserRole {
+  owner
+  hunter
+  admin
+}
+
+enum FileProvider {
+  s3
+  cloudinary
+}
