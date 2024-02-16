@@ -29,4 +29,6 @@ jobs:
 
       - run: git branch --track dev origin/dev
 
+      - run: npx nx run api:gen-types
+
       - run: npx nx affected -t lint,test,build --parallel=3

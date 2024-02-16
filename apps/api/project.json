@@ -46,6 +46,30 @@
       "options": {
         "jestConfig": "apps/api/jest.config.ts"
       }
+    },
+    "prisma": {
+      "command": "prisma",
+      "options": {
+        "cwd": "apps/api"
+      }
+    },
+    "migrate": {
+      "command": "npx prisma migrate dev",
+      "options": {
+        "cwd": "apps/api"
+      }
+    },
+    "gen-types": {
+      "command": "npx prisma generate --schema=./src/prisma/schema.prisma",
+      "options": {
+        "cwd": "apps/api"
+      }
+    },
+    "db-push": {
+      "command": "npx prisma db push --schema=./src/prisma/schema.prisma",
+      "options": {
+        "cwd": "apps/api"
+      }
     }
   },
   "tags": []
