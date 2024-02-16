@@ -50,19 +50,25 @@
     "prisma": {
       "command": "prisma",
       "options": {
-        "cwd": "./src/prisma"
+        "cwd": "apps/api"
       }
     },
     "migrate": {
       "command": "npx prisma migrate dev",
       "options": {
-        "cwd": "./src/prisma"
+        "cwd": "apps/api"
       }
     },
     "gen-types": {
       "command": "npx prisma generate --schema=./src/prisma/schema.prisma",
       "options": {
-        "cwd": "./src/prisma"
+        "cwd": "apps/api"
+      }
+    },
+    "db-push": {
+      "command": "npx prisma db push --schema=./src/prisma/schema.prisma",
+      "options": {
+        "cwd": "apps/api"
       }
     }
   },

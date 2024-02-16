@@ -1,0 +1,603 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type FileCountAggregate {
+  id: Int!
+  url: Int!
+  storageId: Int!
+  provider: Int!
+  metadata: Int!
+  createdAt: Int!
+  updatedAt: Int!
+  deletedAt: Int!
+  _all: Int!
+}
+
+type FileCount {
+  users: Int!
+}
+
+type FileMaxAggregate {
+  id: String
+  url: String
+  storageId: String
+  provider: FileProvider
+  createdAt: DateTime
+  updatedAt: DateTime
+  deletedAt: DateTime
+}
+
+enum FileProvider {
+  s3
+  cloudinary
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type FileMinAggregate {
+  id: String
+  url: String
+  storageId: String
+  provider: FileProvider
+  createdAt: DateTime
+  updatedAt: DateTime
+  deletedAt: DateTime
+}
+
+type File {
+  id: ID!
+  url: String!
+  storageId: String!
+  provider: FileProvider
+  metadata: JSON
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  deletedAt: DateTime
+  users: [User!]
+  _count: FileCount!
+}
+
+"""
+The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSON
+
+type UserCountAggregate {
+  id: Int!
+  avatarId: Int!
+  firstName: Int!
+  lastName: Int!
+  email: Int!
+  emailVerified: Int!
+  password: Int!
+  phoneNumber: Int!
+  status: Int!
+  role: Int!
+  createdAt: Int!
+  updatedAt: Int!
+  deletedAt: Int!
+  _all: Int!
+}
+
+type UserMaxAggregate {
+  id: String
+  avatarId: String
+  firstName: String
+  lastName: String
+  email: String
+  emailVerified: Boolean
+  password: String
+  phoneNumber: String
+  status: UserStatus
+  role: UserRole
+  createdAt: DateTime
+  updatedAt: DateTime
+  deletedAt: DateTime
+}
+
+enum UserStatus {
+  active
+  inactive
+}
+
+enum UserRole {
+  owner
+  hunter
+  admin
+}
+
+type UserMinAggregate {
+  id: String
+  avatarId: String
+  firstName: String
+  lastName: String
+  email: String
+  emailVerified: Boolean
+  password: String
+  phoneNumber: String
+  status: UserStatus
+  role: UserRole
+  createdAt: DateTime
+  updatedAt: DateTime
+  deletedAt: DateTime
+}
+
+type User {
+  id: ID!
+  avatarId: String
+  firstName: String!
+  lastName: String!
+  email: String!
+  emailVerified: Boolean!
+  password: String!
+  phoneNumber: String!
+  status: UserStatus!
+  role: UserRole!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  deletedAt: DateTime
+  avatar: File
+}
+
+type Query {
+  all_user(
+    where: UserWhereInput
+    orderBy: [UserOrderByWithRelationInput!]
+    cursor: UserWhereUniqueInput
+    take: Int
+    skip: Int
+    distinct: [UserScalarFieldEnum!]
+  ): [User!]!
+  one_user(
+    where: UserWhereInput
+    orderBy: [UserOrderByWithRelationInput!]
+    cursor: UserWhereUniqueInput
+    take: Int
+    skip: Int
+    distinct: [UserScalarFieldEnum!]
+  ): User!
+}
+
+input UserWhereInput {
+  AND: [UserWhereInput!]
+  OR: [UserWhereInput!]
+  NOT: [UserWhereInput!]
+  id: StringFilter
+  avatarId: StringNullableFilter
+  firstName: StringFilter
+  lastName: StringFilter
+  email: StringFilter
+  emailVerified: BoolFilter
+  password: StringFilter
+  phoneNumber: StringFilter
+  status: EnumUserStatusFilter
+  role: EnumUserRoleFilter
+  createdAt: DateTimeFilter
+  updatedAt: DateTimeFilter
+  deletedAt: DateTimeNullableFilter
+  avatar: FileNullableRelationFilter
+}
+
+input StringFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  mode: QueryMode
+  not: NestedStringFilter
+}
+
+enum QueryMode {
+  default
+  insensitive
+}
+
+input NestedStringFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  not: NestedStringFilter
+}
+
+input StringNullableFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  mode: QueryMode
+  not: NestedStringNullableFilter
+}
+
+input NestedStringNullableFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  not: NestedStringNullableFilter
+}
+
+input BoolFilter {
+  equals: Boolean
+  not: NestedBoolFilter
+}
+
+input NestedBoolFilter {
+  equals: Boolean
+  not: NestedBoolFilter
+}
+
+input EnumUserStatusFilter {
+  equals: UserStatus
+  in: [UserStatus!]
+  notIn: [UserStatus!]
+  not: NestedEnumUserStatusFilter
+}
+
+input NestedEnumUserStatusFilter {
+  equals: UserStatus
+  in: [UserStatus!]
+  notIn: [UserStatus!]
+  not: NestedEnumUserStatusFilter
+}
+
+input EnumUserRoleFilter {
+  equals: UserRole
+  in: [UserRole!]
+  notIn: [UserRole!]
+  not: NestedEnumUserRoleFilter
+}
+
+input NestedEnumUserRoleFilter {
+  equals: UserRole
+  in: [UserRole!]
+  notIn: [UserRole!]
+  not: NestedEnumUserRoleFilter
+}
+
+input DateTimeFilter {
+  equals: DateTime
+  in: [DateTime!]
+  notIn: [DateTime!]
+  lt: DateTime
+  lte: DateTime
+  gt: DateTime
+  gte: DateTime
+  not: NestedDateTimeFilter
+}
+
+input NestedDateTimeFilter {
+  equals: DateTime
+  in: [DateTime!]
+  notIn: [DateTime!]
+  lt: DateTime
+  lte: DateTime
+  gt: DateTime
+  gte: DateTime
+  not: NestedDateTimeFilter
+}
+
+input DateTimeNullableFilter {
+  equals: DateTime
+  in: [DateTime!]
+  notIn: [DateTime!]
+  lt: DateTime
+  lte: DateTime
+  gt: DateTime
+  gte: DateTime
+  not: NestedDateTimeNullableFilter
+}
+
+input NestedDateTimeNullableFilter {
+  equals: DateTime
+  in: [DateTime!]
+  notIn: [DateTime!]
+  lt: DateTime
+  lte: DateTime
+  gt: DateTime
+  gte: DateTime
+  not: NestedDateTimeNullableFilter
+}
+
+input FileNullableRelationFilter {
+  is: FileWhereInput
+  isNot: FileWhereInput
+}
+
+input FileWhereInput {
+  AND: [FileWhereInput!]
+  OR: [FileWhereInput!]
+  NOT: [FileWhereInput!]
+  id: StringFilter
+  url: StringFilter
+  storageId: StringFilter
+  provider: EnumFileProviderNullableFilter
+  metadata: JsonNullableFilter
+  createdAt: DateTimeFilter
+  updatedAt: DateTimeFilter
+  deletedAt: DateTimeNullableFilter
+  users: UserListRelationFilter
+}
+
+input EnumFileProviderNullableFilter {
+  equals: FileProvider
+  in: [FileProvider!]
+  notIn: [FileProvider!]
+  not: NestedEnumFileProviderNullableFilter
+}
+
+input NestedEnumFileProviderNullableFilter {
+  equals: FileProvider
+  in: [FileProvider!]
+  notIn: [FileProvider!]
+  not: NestedEnumFileProviderNullableFilter
+}
+
+input JsonNullableFilter {
+  equals: JSON
+  path: [String!]
+  string_contains: String
+  string_starts_with: String
+  string_ends_with: String
+  array_contains: JSON
+  array_starts_with: JSON
+  array_ends_with: JSON
+  lt: JSON
+  lte: JSON
+  gt: JSON
+  gte: JSON
+  not: JSON
+}
+
+input UserListRelationFilter {
+  every: UserWhereInput
+  some: UserWhereInput
+  none: UserWhereInput
+}
+
+input UserOrderByWithRelationInput {
+  id: SortOrder
+  avatarId: SortOrderInput
+  firstName: SortOrder
+  lastName: SortOrder
+  email: SortOrder
+  emailVerified: SortOrder
+  password: SortOrder
+  phoneNumber: SortOrder
+  status: SortOrder
+  role: SortOrder
+  createdAt: SortOrder
+  updatedAt: SortOrder
+  deletedAt: SortOrderInput
+  avatar: FileOrderByWithRelationInput
+}
+
+enum SortOrder {
+  asc
+  desc
+}
+
+input SortOrderInput {
+  sort: SortOrder!
+  nulls: NullsOrder
+}
+
+enum NullsOrder {
+  first
+  last
+}
+
+input FileOrderByWithRelationInput {
+  id: SortOrder
+  url: SortOrder
+  storageId: SortOrder
+  provider: SortOrderInput
+  metadata: SortOrderInput
+  createdAt: SortOrder
+  updatedAt: SortOrder
+  deletedAt: SortOrderInput
+  users: UserOrderByRelationAggregateInput
+}
+
+input UserOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+input UserWhereUniqueInput {
+  id: String
+  email: String
+  AND: [UserWhereInput!]
+  OR: [UserWhereInput!]
+  NOT: [UserWhereInput!]
+  avatarId: StringNullableFilter
+  firstName: StringFilter
+  lastName: StringFilter
+  emailVerified: BoolFilter
+  password: StringFilter
+  phoneNumber: StringFilter
+  status: EnumUserStatusFilter
+  role: EnumUserRoleFilter
+  createdAt: DateTimeFilter
+  updatedAt: DateTimeFilter
+  deletedAt: DateTimeNullableFilter
+  avatar: FileNullableRelationFilter
+}
+
+enum UserScalarFieldEnum {
+  id
+  avatarId
+  firstName
+  lastName
+  email
+  emailVerified
+  password
+  phoneNumber
+  status
+  role
+  createdAt
+  updatedAt
+  deletedAt
+}
+
+type Mutation {
+  create_user(data: UserCreateInput!): User!
+  update_user(data: UserUpdateInput!, where: UserWhereUniqueInput!): User!
+  delete_user(where: UserWhereUniqueInput!): User!
+}
+
+input UserCreateInput {
+  id: String
+  firstName: String!
+  lastName: String!
+  email: String!
+  emailVerified: Boolean
+  password: String!
+  phoneNumber: String!
+  status: UserStatus
+  role: UserRole
+  createdAt: DateTime
+  updatedAt: DateTime
+  deletedAt: DateTime
+  avatar: FileCreateNestedOneWithoutUsersInput
+}
+
+input FileCreateNestedOneWithoutUsersInput {
+  create: FileCreateWithoutUsersInput
+  connectOrCreate: FileCreateOrConnectWithoutUsersInput
+  connect: FileWhereUniqueInput
+}
+
+input FileCreateWithoutUsersInput {
+  id: String
+  url: String!
+  storageId: String!
+  provider: FileProvider
+  metadata: JSON
+  createdAt: DateTime
+  updatedAt: DateTime
+  deletedAt: DateTime
+}
+
+input FileCreateOrConnectWithoutUsersInput {
+  where: FileWhereUniqueInput!
+  create: FileCreateWithoutUsersInput!
+}
+
+input FileWhereUniqueInput {
+  id: String
+  storageId: String
+  AND: [FileWhereInput!]
+  OR: [FileWhereInput!]
+  NOT: [FileWhereInput!]
+  url: StringFilter
+  provider: EnumFileProviderNullableFilter
+  metadata: JsonNullableFilter
+  createdAt: DateTimeFilter
+  updatedAt: DateTimeFilter
+  deletedAt: DateTimeNullableFilter
+  users: UserListRelationFilter
+}
+
+input UserUpdateInput {
+  id: StringFieldUpdateOperationsInput
+  firstName: StringFieldUpdateOperationsInput
+  lastName: StringFieldUpdateOperationsInput
+  email: StringFieldUpdateOperationsInput
+  emailVerified: BoolFieldUpdateOperationsInput
+  password: StringFieldUpdateOperationsInput
+  phoneNumber: StringFieldUpdateOperationsInput
+  status: EnumUserStatusFieldUpdateOperationsInput
+  role: EnumUserRoleFieldUpdateOperationsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+  deletedAt: NullableDateTimeFieldUpdateOperationsInput
+  avatar: FileUpdateOneWithoutUsersNestedInput
+}
+
+input StringFieldUpdateOperationsInput {
+  set: String
+}
+
+input BoolFieldUpdateOperationsInput {
+  set: Boolean
+}
+
+input EnumUserStatusFieldUpdateOperationsInput {
+  set: UserStatus
+}
+
+input EnumUserRoleFieldUpdateOperationsInput {
+  set: UserRole
+}
+
+input DateTimeFieldUpdateOperationsInput {
+  set: DateTime
+}
+
+input NullableDateTimeFieldUpdateOperationsInput {
+  set: DateTime
+}
+
+input FileUpdateOneWithoutUsersNestedInput {
+  create: FileCreateWithoutUsersInput
+  connectOrCreate: FileCreateOrConnectWithoutUsersInput
+  upsert: FileUpsertWithoutUsersInput
+  disconnect: FileWhereInput
+  delete: FileWhereInput
+  connect: FileWhereUniqueInput
+  update: FileUpdateToOneWithWhereWithoutUsersInput
+}
+
+input FileUpsertWithoutUsersInput {
+  update: FileUpdateWithoutUsersInput!
+  create: FileCreateWithoutUsersInput!
+  where: FileWhereInput
+}
+
+input FileUpdateWithoutUsersInput {
+  id: StringFieldUpdateOperationsInput
+  url: StringFieldUpdateOperationsInput
+  storageId: StringFieldUpdateOperationsInput
+  provider: NullableEnumFileProviderFieldUpdateOperationsInput
+  metadata: JSON
+  createdAt: DateTimeFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+  deletedAt: NullableDateTimeFieldUpdateOperationsInput
+}
+
+input NullableEnumFileProviderFieldUpdateOperationsInput {
+  set: FileProvider
+}
+
+input FileUpdateToOneWithWhereWithoutUsersInput {
+  where: FileWhereInput
+  data: FileUpdateWithoutUsersInput!
+}

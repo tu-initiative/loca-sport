@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
 
-import { UsersModule } from '@api/users/users.module';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { join } from 'path';
 import { validate } from './configs/validation';
+import { UsersModule } from './modules/users/users.module';
 
 @Module({
   imports: [
