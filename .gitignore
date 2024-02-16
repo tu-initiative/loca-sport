@@ -44,3 +44,4 @@ Thumbs.db
 .next
 .db.env
 apps/api/.env
+apps/api/src/@generated
