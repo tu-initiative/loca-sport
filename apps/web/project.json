@@ -10,12 +10,6 @@
       "options": {
         "jestConfig": "apps/web/jest.config.ts"
       }
-    },
-    "build": {
-      "outputs": ["{workspaceRoot}/dist/apps/web"],
-      "options": {
-        "outputPath": "dist/apps/web"
-      }
     }
   },
   "tags": []
