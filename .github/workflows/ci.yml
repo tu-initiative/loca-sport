@@ -18,13 +18,13 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: 'yarn'
 
       - name: Restore cached yarn dependencies
-        uses: actions/cache/restore@v3
+        uses: actions/cache/restore@v4
         with:
           path: |
             node_modules
@@ -34,14 +34,14 @@ jobs:
       - run: yarn install --frozen-lockfile
 
       - name: Cache yarn dependencies
-        uses: actions/cache/save@v3
+        uses: actions/cache/save@v4
         with:
           path: |
             node_modules
             ~/.cache/Cypress # needed for the Cypress binary
           key: yarn-dependencies-${{ hashFiles('yarn-lock.yaml') }}
 
-      - uses: nrwl/nx-set-shas@v3
+      - uses: nrwl/nx-set-shas@v4
       - run: git branch --track dev origin/dev
       - run: npx nx run api:gen-types
 
