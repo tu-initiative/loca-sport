@@ -29,7 +29,7 @@ jobs:
           path: |
             node_modules
             ~/.cache/Cypress # needed for the Cypress binary
-          key: yarn-dependencies-${{ hashFiles('yarn-lock.yaml') }}
+          key: yarn-dependencies-${{ hashFiles('yarn.lock') }}
 
       - run: yarn install --frozen-lockfile
 
@@ -39,7 +39,7 @@ jobs:
           path: |
             node_modules
             ~/.cache/Cypress # needed for the Cypress binary
-          key: yarn-dependencies-${{ hashFiles('yarn-lock.yaml') }}
+          key: yarn-dependencies-${{ hashFiles('yarn.lock') }}
 
       - uses: nrwl/nx-set-shas@v4
       - run: git branch --track dev origin/dev
