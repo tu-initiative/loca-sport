@@ -68,6 +68,7 @@ scalar JSON
 
 type UserCountAggregate {
   id: Int!
+  avatarUrl: Int!
   avatarId: Int!
   firstName: Int!
   lastName: Int!
@@ -75,6 +76,7 @@ type UserCountAggregate {
   emailVerified: Int!
   password: Int!
   phoneNumber: Int!
+  signInProvider: Int!
   status: Int!
   role: Int!
   createdAt: Int!
@@ -85,6 +87,7 @@ type UserCountAggregate {
 
 type UserMaxAggregate {
   id: String
+  avatarUrl: String
   avatarId: String
   firstName: String
   lastName: String
@@ -92,11 +95,16 @@ type UserMaxAggregate {
   emailVerified: Boolean
   password: String
   phoneNumber: String
+  signInProvider: SignInProvider
   status: UserStatus
   role: UserRole
   createdAt: DateTime
   updatedAt: DateTime
   deletedAt: DateTime
+}
+
+enum SignInProvider {
+  google
 }
 
 enum UserStatus {
@@ -105,13 +113,15 @@ enum UserStatus {
 }
 
 enum UserRole {
-  owner
-  hunter
+  supper_admin
   admin
+  staff
+  user
 }
 
 type UserMinAggregate {
   id: String
+  avatarUrl: String
   avatarId: String
   firstName: String
   lastName: String
@@ -119,6 +129,7 @@ type UserMinAggregate {
   emailVerified: Boolean
   password: String
   phoneNumber: String
+  signInProvider: SignInProvider
   status: UserStatus
   role: UserRole
   createdAt: DateTime
@@ -128,13 +139,15 @@ type UserMinAggregate {
 
 type User {
   id: ID!
+  avatarUrl: String
   avatarId: String
-  firstName: String!
-  lastName: String!
+  firstName: String
+  lastName: String
   email: String!
   emailVerified: Boolean!
   password: String!
-  phoneNumber: String!
+  phoneNumber: String
+  signInProvider: SignInProvider
   status: UserStatus!
   role: UserRole!
   createdAt: DateTime!
@@ -143,9 +156,54 @@ type User {
   avatar: File
 }
 
+type UserOnly {
+  id: ID!
+  avatarUrl: String
+  avatarId: String
+  firstName: String
+  lastName: String
+  email: String!
+  emailVerified: Boolean!
+  phoneNumber: String
+  signInProvider: SignInProvider
+  status: UserStatus!
+  role: UserRole!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  deletedAt: DateTime
+  avatar: File
+}
+
+type LoginResult {
+  accessToken: String!
+  expireTime: DateTime!
+  refreshToken: String!
+  profile: UserOnly
+}
+
+type RefreshTokenResult {
+  accessToken: String!
+  expireTime: DateTime!
+}
+
 type Query {
-  all_user(where: UserWhereInput, orderBy: [UserOrderByWithRelationInput!], cursor: UserWhereUniqueInput, take: Int, skip: Int, distinct: [UserScalarFieldEnum!]): [User!]!
-  one_user(where: UserWhereInput, orderBy: [UserOrderByWithRelationInput!], cursor: UserWhereUniqueInput, take: Int, skip: Int, distinct: [UserScalarFieldEnum!]): User!
+  findManyUser(
+    where: UserWhereInput
+    orderBy: [UserOrderByWithRelationInput!]
+    cursor: UserWhereUniqueInput
+    take: Int
+    skip: Int
+    distinct: [UserScalarFieldEnum!]
+  ): [User!]!
+  findFirstUser(
+    where: UserWhereInput
+    orderBy: [UserOrderByWithRelationInput!]
+    cursor: UserWhereUniqueInput
+    take: Int
+    skip: Int
+    distinct: [UserScalarFieldEnum!]
+  ): User!
+  getUploadUrl(name: String!): String!
 }
 
 input UserWhereInput {
@@ -153,13 +211,15 @@ input UserWhereInput {
   OR: [UserWhereInput!]
   NOT: [UserWhereInput!]
   id: StringFilter
+  avatarUrl: StringNullableFilter
   avatarId: StringNullableFilter
-  firstName: StringFilter
-  lastName: StringFilter
+  firstName: StringNullableFilter
+  lastName: StringNullableFilter
   email: StringFilter
   emailVerified: BoolFilter
   password: StringFilter
-  phoneNumber: StringFilter
+  phoneNumber: StringNullableFilter
+  signInProvider: EnumSignInProviderNullableFilter
   status: EnumUserStatusFilter
   role: EnumUserRoleFilter
   createdAt: DateTimeFilter
@@ -239,6 +299,20 @@ input BoolFilter {
 input NestedBoolFilter {
   equals: Boolean
   not: NestedBoolFilter
+}
+
+input EnumSignInProviderNullableFilter {
+  equals: SignInProvider
+  in: [SignInProvider!]
+  notIn: [SignInProvider!]
+  not: NestedEnumSignInProviderNullableFilter
+}
+
+input NestedEnumSignInProviderNullableFilter {
+  equals: SignInProvider
+  in: [SignInProvider!]
+  notIn: [SignInProvider!]
+  not: NestedEnumSignInProviderNullableFilter
 }
 
 input EnumUserStatusFilter {
@@ -371,13 +445,15 @@ input UserListRelationFilter {
 
 input UserOrderByWithRelationInput {
   id: SortOrder
+  avatarUrl: SortOrderInput
   avatarId: SortOrderInput
-  firstName: SortOrder
-  lastName: SortOrder
+  firstName: SortOrderInput
+  lastName: SortOrderInput
   email: SortOrder
   emailVerified: SortOrder
   password: SortOrder
-  phoneNumber: SortOrder
+  phoneNumber: SortOrderInput
+  signInProvider: SortOrderInput
   status: SortOrder
   role: SortOrder
   createdAt: SortOrder
@@ -423,12 +499,14 @@ input UserWhereUniqueInput {
   AND: [UserWhereInput!]
   OR: [UserWhereInput!]
   NOT: [UserWhereInput!]
+  avatarUrl: StringNullableFilter
   avatarId: StringNullableFilter
-  firstName: StringFilter
-  lastName: StringFilter
+  firstName: StringNullableFilter
+  lastName: StringNullableFilter
   emailVerified: BoolFilter
   password: StringFilter
-  phoneNumber: StringFilter
+  phoneNumber: StringNullableFilter
+  signInProvider: EnumSignInProviderNullableFilter
   status: EnumUserStatusFilter
   role: EnumUserRoleFilter
   createdAt: DateTimeFilter
@@ -439,6 +517,7 @@ input UserWhereUniqueInput {
 
 enum UserScalarFieldEnum {
   id
+  avatarUrl
   avatarId
   firstName
   lastName
@@ -446,6 +525,7 @@ enum UserScalarFieldEnum {
   emailVerified
   password
   phoneNumber
+  signInProvider
   status
   role
   createdAt
@@ -454,19 +534,39 @@ enum UserScalarFieldEnum {
 }
 
 type Mutation {
-  create_user(data: UserCreateInput!): User!
-  update_user(data: UserUpdateInput!, where: UserWhereUniqueInput!): User!
-  delete_user(where: UserWhereUniqueInput!): User!
+  login(email: String!, password: String!): LoginResult!
+  loginWithIdToken(
+    idToken: String!
+    role: UserRole = admin
+    provider: SignInProvider = google
+  ): LoginResult!
+  register(
+    email: String!
+    password: String!
+    role: UserRoleWithoutSupperAdmin = admin
+  ): UserOnly!
+  refreshToken(refreshToken: String!): RefreshTokenResult!
+  createOneUser(data: UserCreateInput!): User!
+  updateOneUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User!
+  deleteOneUser(where: UserWhereUniqueInput!): User!
+}
+
+enum UserRoleWithoutSupperAdmin {
+  admin
+  staff
+  user
 }
 
 input UserCreateInput {
   id: String
-  firstName: String!
-  lastName: String!
+  avatarUrl: String
+  firstName: String
+  lastName: String
   email: String!
   emailVerified: Boolean
   password: String!
-  phoneNumber: String!
+  phoneNumber: String
+  signInProvider: SignInProvider
   status: UserStatus
   role: UserRole
   createdAt: DateTime
@@ -514,12 +614,14 @@ input FileWhereUniqueInput {
 
 input UserUpdateInput {
   id: StringFieldUpdateOperationsInput
-  firstName: StringFieldUpdateOperationsInput
-  lastName: StringFieldUpdateOperationsInput
+  avatarUrl: NullableStringFieldUpdateOperationsInput
+  firstName: NullableStringFieldUpdateOperationsInput
+  lastName: NullableStringFieldUpdateOperationsInput
   email: StringFieldUpdateOperationsInput
   emailVerified: BoolFieldUpdateOperationsInput
   password: StringFieldUpdateOperationsInput
-  phoneNumber: StringFieldUpdateOperationsInput
+  phoneNumber: NullableStringFieldUpdateOperationsInput
+  signInProvider: NullableEnumSignInProviderFieldUpdateOperationsInput
   status: EnumUserStatusFieldUpdateOperationsInput
   role: EnumUserRoleFieldUpdateOperationsInput
   createdAt: DateTimeFieldUpdateOperationsInput
@@ -532,8 +634,16 @@ input StringFieldUpdateOperationsInput {
   set: String
 }
 
+input NullableStringFieldUpdateOperationsInput {
+  set: String
+}
+
 input BoolFieldUpdateOperationsInput {
   set: Boolean
+}
+
+input NullableEnumSignInProviderFieldUpdateOperationsInput {
+  set: SignInProvider
 }
 
 input EnumUserStatusFieldUpdateOperationsInput {

@@ -20,20 +20,22 @@ generator nestgraphql {
 model User {
   id String @id @default(uuid())
 
-  avatarId String?
-  avatar   File?   @relation(fields: [avatarId], references: [id])
+  avatarUrl String? // valid when login sso
+  avatarId  String?
+  avatar    File?   @relation(fields: [avatarId], references: [id])
 
-  firstName     String
-  lastName      String
-  email         String     @unique
-  emailVerified Boolean    @default(false)
-  password      String
-  phoneNumber   String
-  status        UserStatus @default(active)
-  role          UserRole   @default(owner)
-  createdAt     DateTime   @default(now())
-  updatedAt     DateTime   @updatedAt
-  deletedAt     DateTime?
+  firstName      String?
+  lastName       String?
+  email          String          @unique
+  emailVerified  Boolean         @default(false)
+  password       String
+  phoneNumber    String?
+  signInProvider SignInProvider?
+  status         UserStatus      @default(active)
+  role           UserRole        @default(admin)
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  deletedAt      DateTime?
 }
 
 model File {
@@ -54,12 +56,17 @@ enum UserStatus {
 }
 
 enum UserRole {
-  owner
-  hunter
+  supper_admin
   admin
+  staff
+  user
 }
 
 enum FileProvider {
   s3
   cloudinary
+}
+
+enum SignInProvider {
+  google
 }
