@@ -36,4 +36,36 @@ export class AppConfig {
 
   @IsNumber()
   JWT_REFRESH_TOKEN_EXPIRES_IN: number;
+
+  @IsString()
+  @IsNotEmpty()
+  GOOGLE_CLIENT_ID: string;
+
+  @IsString()
+  @IsNotEmpty()
+  GOOGLE_CLIENT_SECRET: string;
+
+  @IsString()
+  @IsNotEmpty()
+  FILE_FOLDER_TEMP: string;
+
+  @IsString()
+  @IsNotEmpty()
+  FILE_FOLDER_ASSETS: string;
+
+  @IsString()
+  @IsNotEmpty()
+  CLOUDINARY_NAME: string;
+
+  @IsString()
+  @IsNotEmpty()
+  CLOUDINARY_API_KEY: string;
+
+  @IsString()
+  @IsNotEmpty()
+  CLOUDINARY_API_SECRET: string;
+
+  @IsString()
+  @IsNotEmpty()
+  CLOUDINARY_DOMAIN: string;
 }

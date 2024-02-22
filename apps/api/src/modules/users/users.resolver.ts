@@ -8,32 +8,35 @@ import {
   UpdateOneUserArgs,
   User,
 } from '@api/@generated';
+import { AuthRoles } from '../auth/passport/jwt/jwt.decorator';
+import { UserRole } from '@prisma/client';
 
 @Resolver(() => User)
 export class UsersResolver {
   constructor(private readonly usersService: UsersService) {}
 
-  @Mutation(() => User, { name: 'create_user' })
+  @Mutation(() => User)
   createOneUser(@Args() args: CreateOneUserArgs) {
     return this.usersService.create(args);
   }
 
-  @Mutation(() => User, { name: 'update_user' })
+  @Mutation(() => User)
   updateOneUser(@Args() args: UpdateOneUserArgs) {
     return this.usersService.update(args);
   }
 
-  @Mutation(() => User, { name: 'delete_user' })
+  @Mutation(() => User)
   deleteOneUser(@Args() args: DeleteOneUserArgs) {
     return this.usersService.delete(args);
   }
 
-  @Query(() => [User], { name: 'all_user' })
+  @Query(() => [User])
+  @AuthRoles()
   findManyUser(@Args() args: FindManyUserArgs) {
     return this.usersService.findMany(args);
   }
 
-  @Query(() => User, { name: 'one_user' })
+  @Query(() => User)
   findFirstUser(@Args() args: FindFirstUserArgs) {
     return this.usersService.findFirst(args);
   }
