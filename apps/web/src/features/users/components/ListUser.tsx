@@ -1,13 +1,12 @@
 'use client';
 
-import { useQuery } from '@apollo/client';
-import { FIND_MANY_USER } from '@web/graphql/queries';
+import { useFindManyUserQuery } from '@web/@generated';
 
 // TODO: delete this file later
 export default function ListUser() {
-  const { error } = useQuery(FIND_MANY_USER);
+  const { error } = useFindManyUserQuery();
 
-  console.log('=================', error);
+  console.log('================error', error);
 
   return (
     <div>

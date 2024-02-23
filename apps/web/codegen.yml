@@ -1,0 +1,13 @@
+overwrite: true
+schema: 'apps/api/src/schema.gql'
+generates:
+  apps/web/src/@generated/index.tsx:
+    documents: 'apps/web/src/graphql/**/*.gql'
+    plugins:
+      - 'typescript'
+      - 'typescript-operations'
+      - 'typescript-react-apollo'
+    config:
+      withHooks: true
+      withComponent: false
+      withHOC: false
