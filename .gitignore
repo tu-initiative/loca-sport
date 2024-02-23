@@ -49,3 +49,4 @@ apps/api/.env
 
 # generated files
 apps/api/src/@generated
+apps/web/src/@generated
