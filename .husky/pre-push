@@ -1,1 +1,1 @@
-npx nx affected -t lint,test,build --parallel=3
+npx nx affected -t generate, lint,test,build --parallel=3

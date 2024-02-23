@@ -46,6 +46,7 @@ Thumbs.db
 # environment files
 .db.env
 apps/api/.env
+apps/web/.env
 
 # generated files
 apps/api/src/@generated

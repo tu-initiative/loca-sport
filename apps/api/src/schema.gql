@@ -105,6 +105,7 @@ type UserMaxAggregate {
 
 enum SignInProvider {
   google
+  credentials
 }
 
 enum UserStatus {
@@ -141,7 +142,7 @@ type User {
   id: ID!
   avatarUrl: String
   avatarId: String
-  firstName: String
+  firstName: String!
   lastName: String
   email: String!
   emailVerified: Boolean!
@@ -160,7 +161,7 @@ type UserOnly {
   id: ID!
   avatarUrl: String
   avatarId: String
-  firstName: String
+  firstName: String!
   lastName: String
   email: String!
   emailVerified: Boolean!
@@ -199,7 +200,7 @@ input UserWhereInput {
   id: StringFilter
   avatarUrl: StringNullableFilter
   avatarId: StringNullableFilter
-  firstName: StringNullableFilter
+  firstName: StringFilter
   lastName: StringNullableFilter
   email: StringFilter
   emailVerified: BoolFilter
@@ -433,7 +434,7 @@ input UserOrderByWithRelationInput {
   id: SortOrder
   avatarUrl: SortOrderInput
   avatarId: SortOrderInput
-  firstName: SortOrderInput
+  firstName: SortOrder
   lastName: SortOrderInput
   email: SortOrder
   emailVerified: SortOrder
@@ -487,7 +488,7 @@ input UserWhereUniqueInput {
   NOT: [UserWhereInput!]
   avatarUrl: StringNullableFilter
   avatarId: StringNullableFilter
-  firstName: StringNullableFilter
+  firstName: StringFilter
   lastName: StringNullableFilter
   emailVerified: BoolFilter
   password: StringFilter
@@ -538,7 +539,7 @@ enum UserRoleWithoutSupperAdmin {
 input UserCreateInput {
   id: String
   avatarUrl: String
-  firstName: String
+  firstName: String!
   lastName: String
   email: String!
   emailVerified: Boolean
@@ -593,7 +594,7 @@ input FileWhereUniqueInput {
 input UserUpdateInput {
   id: StringFieldUpdateOperationsInput
   avatarUrl: NullableStringFieldUpdateOperationsInput
-  firstName: NullableStringFieldUpdateOperationsInput
+  firstName: StringFieldUpdateOperationsInput
   lastName: NullableStringFieldUpdateOperationsInput
   email: StringFieldUpdateOperationsInput
   emailVerified: BoolFieldUpdateOperationsInput
