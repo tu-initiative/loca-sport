@@ -59,8 +59,7 @@
         "cwd": "apps/api"
       }
     },
-    "gen-types": {
-      "cache": true,
+    "generate": {
       "command": "npx prisma generate --schema=./src/prisma/schema.prisma",
       "options": {
         "cwd": "apps/api"

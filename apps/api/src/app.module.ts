@@ -24,7 +24,7 @@ import { HttpExceptionFilter } from './utils/exception/http-exception.filter';
     FileModule,
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      autoSchemaFile: join(process.cwd(), 'apps/api/src/@generated/schema.gql'),
+      autoSchemaFile: join(process.cwd(), 'apps/api/src/schema.gql'),
     }),
   ],
   providers: [
