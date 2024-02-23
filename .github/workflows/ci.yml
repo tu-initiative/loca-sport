@@ -18,17 +18,32 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: 'yarn'
 
+      - name: Restore cached yarn dependencies
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            node_modules
+            ~/.cache/Cypress # needed for the Cypress binary
+          key: yarn-dependencies-${{ hashFiles('yarn.lock') }}-${{ hashFiles('apps/src/prisma/schema.prisma') }}
+
       - run: yarn install --frozen-lockfile
 
-      - uses: nrwl/nx-set-shas@v3
-
+      - uses: nrwl/nx-set-shas@v4
       - run: git branch --track dev origin/dev
-
       - run: npx nx run api:gen-types
+      
+      # cache after the prisma client has been generated inside node_modules
+      - name: Cache yarn dependencies
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            node_modules
+            ~/.cache/Cypress # needed for the Cypress binary
+          key: yarn-dependencies-${{ hashFiles('yarn.lock') }}-${{ hashFiles('apps/src/prisma/schema.prisma') }}
 
       - run: npx nx affected -t lint,test,build --parallel=3
