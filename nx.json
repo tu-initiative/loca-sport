@@ -38,6 +38,9 @@
           "codeCoverage": true
         }
       }
+    },
+    "generate": {
+      "cache": true
     }
   },
   "namedInputs": {

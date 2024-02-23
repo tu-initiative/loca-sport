@@ -10,6 +10,14 @@
       "options": {
         "jestConfig": "apps/web/jest.config.ts"
       }
+    },
+    "generate": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "npx graphql-codegen --config apps/web/codegen.yml"
+        ]
+      }
     }
   },
   "tags": []
