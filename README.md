@@ -71,6 +71,11 @@ nx run api:migrate
 
 <!-- TODO: update instruction to seed db later -->
 
+Generate required types for both backend & frontend
+```
+nx run-many -t generate
+```
+
 Start the backend service
 ```
 nx serve api
