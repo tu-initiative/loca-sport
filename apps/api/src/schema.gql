@@ -187,22 +187,8 @@ type RefreshTokenResult {
 }
 
 type Query {
-  findManyUser(
-    where: UserWhereInput
-    orderBy: [UserOrderByWithRelationInput!]
-    cursor: UserWhereUniqueInput
-    take: Int
-    skip: Int
-    distinct: [UserScalarFieldEnum!]
-  ): [User!]!
-  findFirstUser(
-    where: UserWhereInput
-    orderBy: [UserOrderByWithRelationInput!]
-    cursor: UserWhereUniqueInput
-    take: Int
-    skip: Int
-    distinct: [UserScalarFieldEnum!]
-  ): User!
+  findManyUser(where: UserWhereInput, orderBy: [UserOrderByWithRelationInput!], cursor: UserWhereUniqueInput, take: Int, skip: Int, distinct: [UserScalarFieldEnum!]): [User!]!
+  findFirstUser(where: UserWhereInput, orderBy: [UserOrderByWithRelationInput!], cursor: UserWhereUniqueInput, take: Int, skip: Int, distinct: [UserScalarFieldEnum!]): User!
   getUploadUrl(name: String!): String!
 }
 
@@ -535,16 +521,8 @@ enum UserScalarFieldEnum {
 
 type Mutation {
   login(email: String!, password: String!): LoginResult!
-  loginWithIdToken(
-    idToken: String!
-    role: UserRole = admin
-    provider: SignInProvider = google
-  ): LoginResult!
-  register(
-    email: String!
-    password: String!
-    role: UserRoleWithoutSupperAdmin = admin
-  ): UserOnly!
+  loginWithIdToken(idToken: String!, role: UserRole = admin, provider: SignInProvider = google): LoginResult!
+  register(email: String!, password: String!, role: UserRoleWithoutSupperAdmin = admin): UserOnly!
   refreshToken(refreshToken: String!): RefreshTokenResult!
   createOneUser(data: UserCreateInput!): User!
   updateOneUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User!
