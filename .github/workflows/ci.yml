@@ -35,7 +35,7 @@ jobs:
 
       - uses: nrwl/nx-set-shas@v4
       - run: git branch --track dev origin/dev
-      - run: npx nx run api:generate
+      - run: npx nx run-many -t generate --parallel=3
       
       # cache after the prisma client has been generated inside node_modules
       - name: Cache yarn dependencies

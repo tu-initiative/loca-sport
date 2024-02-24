@@ -55,9 +55,9 @@
     },
 
     "generate": {
-      "command": "npx prisma generate --schema=./src/prisma/schema.prisma",
+      "command": "npx prisma generate",
       "options": {
-        "cwd": "apps/api"
+        "cwd": "apps/api/src"
       }
     },
     "prisma-generate": {
