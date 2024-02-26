@@ -54,9 +54,9 @@ After finishing clone this repository. Install the requirement dependencies.
 yarn install
 ```
 
-Create `.db.env` and `.env` files.
+Create `.env` files.
 ```
-cp .db.env.example .db.env && cp ./apps/api/.env.example ./apps/api/.env
+cp .env.example ./env
 ```
 
 Run the postgresql database inside docker.

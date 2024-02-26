@@ -1,23 +1,20 @@
-import { auth } from '@web/helpers/auth';
-
-import { FindManyUserDocument } from '@web/@generated';
-import { ListUser } from '@web/features/users';
-import { getClient } from '@web/libs/client';
+import { LoginButton, LogoutButton } from '@web/@features/login';
+import { auth } from '@web/libs/auth';
 
 export default async function Index() {
   const session = await auth();
-  console.log('====================', session)
-
-  const data = getClient().query({
-    query: FindManyUserDocument,
-  });
-
-  console.log('=================server side fetching', data);
 
   return (
-    <div>
+    <div className="flex flex-col items-center justify-center h-[100vh]">
       <p className="italic">Court booking app</p>
-      <ListUser />
+      {!session ? (
+        <LoginButton />
+      ) : (
+        <>
+          <p>Logged in as {session.user?.email}</p>
+          <LogoutButton />
+        </>
+      )}
     </div>
   );
 }

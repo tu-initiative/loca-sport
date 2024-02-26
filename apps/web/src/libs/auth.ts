@@ -1,11 +1,12 @@
+import { formatUserName } from '@web/@features/users/utils';
+import { LoginDocument, LoginResult } from '@web/@generated';
+import { getClient } from '@web/libs/client';
 import type { GetServerSidePropsContext, NextApiRequest, NextApiResponse } from 'next';
 import type { NextAuthOptions } from 'next-auth';
 import { getServerSession } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import GoogleProvider from 'next-auth/providers/google';
 
-// You'll need to import and pass this
-// to `NextAuth` in `app/api/auth/[...nextauth]/route.ts`
 export const authOptions = {
   providers: [
     GoogleProvider({
@@ -13,28 +14,35 @@ export const authOptions = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
     }),
     CredentialsProvider({
-      name: 'Credentials',
+      name: 'credentials',
       credentials: {
         username: { label: 'Email', type: 'email' },
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
-        const res = await fetch('/your/endpoint', {
-          method: 'POST',
-          body: JSON.stringify(credentials),
-          headers: { 'Content-Type': 'application/json' },
+        const { data } = await getClient().mutate<{ login: LoginResult }>({
+          mutation: LoginDocument,
+          variables: credentials,
         });
-        const user = await res.json();
 
-        // If no error and we have user data, return it
-        if (res.ok && user) {
-          return user;
+        if (!data?.login?.profile) {
+          return null;
         }
-        // Return null if user data could not be retrieved
-        return null;
+
+        const { id, firstName, lastName, email, avatarUrl } = data.login.profile;
+        return {
+          id,
+          email,
+          image: avatarUrl,
+          name: formatUserName({ firstName, lastName }),
+        };
       },
     }),
-  ], // rest of your config
+  ],
+  pages: {
+    signIn: '/auth/login',
+    error: '/auth/login',
+  },
 } satisfies NextAuthOptions;
 
 // Use it in server contexts
