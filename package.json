@@ -44,6 +44,7 @@
     "@graphql-codegen/typescript-react-apollo": "^4.3.0",
     "@nestjs/schematics": "^10.0.1",
     "@nestjs/testing": "^10.0.2",
+    "@nx-tools/nx-prisma": "^5.2.0",
     "@nx/eslint": "17.3.1",
     "@nx/eslint-plugin": "17.3.1",
     "@nx/jest": "17.3.1",
