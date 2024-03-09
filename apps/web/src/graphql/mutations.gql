@@ -12,3 +12,18 @@ mutation login($email: String!, $password: String!) {
     }
   }
 }
+
+mutation loginWithIdToken($idToken: String!, $role: UserRole, $provider: SignInProvider) {
+  loginWithIdToken(idToken: $idToken, role: $role, provider: $provider) {
+    accessToken
+    expireTime
+    refreshToken
+    profile {
+      id
+      firstName
+      lastName
+      email
+      avatarUrl
+    }
+  }
+}

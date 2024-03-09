@@ -1,4 +1,6 @@
-import { LoginForm } from '@web/@features/login';
+'use client'
+
+import { LoginForm } from '@web/@features/auth';
 
 export const LoginContainer = () => {
   return (

@@ -7,7 +7,7 @@ import {
   LoginWithIdTokenArgs,
   RefreshTokenArgs,
   RefreshTokenResult,
-  RegisterArgs,
+  UserRegisterArgs,
 } from './auth.type';
 
 @Resolver()
@@ -20,21 +20,17 @@ export class AuthResolver {
   }
 
   @Mutation(() => LoginResult)
-  async loginWithIdToken(
-    @Args() args: LoginWithIdTokenArgs
-  ): Promise<LoginResult> {
+  async loginWithIdToken(@Args() args: LoginWithIdTokenArgs): Promise<LoginResult> {
     return this.authService.loginWithIdToken(args);
   }
 
   @Mutation(() => UserOnly)
-  async register(@Args() args: RegisterArgs): Promise<UserOnly> {
+  async register(@Args() args: UserRegisterArgs): Promise<UserOnly> {
     return this.authService.register(args);
   }
 
   @Mutation(() => RefreshTokenResult)
-  async refreshToken(
-    @Args() args: RefreshTokenArgs
-  ): Promise<RefreshTokenResult> {
+  async refreshToken(@Args() args: RefreshTokenArgs): Promise<RefreshTokenResult> {
     return this.authService.refreshToken(args.refreshToken);
   }
 }

@@ -523,17 +523,20 @@ enum UserScalarFieldEnum {
 type Mutation {
   login(email: String!, password: String!): LoginResult!
   loginWithIdToken(idToken: String!, role: UserRole = admin, provider: SignInProvider = google): LoginResult!
-  register(email: String!, password: String!, role: UserRoleWithoutSupperAdmin = admin): UserOnly!
+  register(data: UserRegisterInput!): UserOnly!
   refreshToken(refreshToken: String!): RefreshTokenResult!
   createOneUser(data: UserCreateInput!): User!
   updateOneUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User!
   deleteOneUser(where: UserWhereUniqueInput!): User!
 }
 
-enum UserRoleWithoutSupperAdmin {
-  admin
-  staff
-  user
+input UserRegisterInput {
+  email: String!
+  password: String!
+  firstName: String!
+  lastName: String
+  phoneNumber: String
+  role: UserRole = admin
 }
 
 input UserCreateInput {
