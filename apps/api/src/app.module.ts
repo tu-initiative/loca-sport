@@ -17,6 +17,7 @@ import { HttpExceptionFilter } from './utils/exception/http-exception.filter';
       isGlobal: true,
       cache: true,
       expandVariables: true,
+      envFilePath: ['.env', 'apps/api/.env'],
       validate,
     }),
     AuthModule,
