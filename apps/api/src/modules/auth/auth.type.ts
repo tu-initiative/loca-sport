@@ -1,15 +1,34 @@
-import { ArgsType, Field, ObjectType, registerEnumType } from '@nestjs/graphql';
-import { UserOnly } from '../users/user.type';
 import { SignInProvider, UserRole } from '@api/@generated';
+import { ArgsType, Field, InputType, ObjectType } from '@nestjs/graphql';
+import { Type } from 'class-transformer';
+import { UserOnly } from '../users/user.type';
 
 export enum UserRoleWithoutSupperAdmin {
   admin = UserRole.admin,
   staff = UserRole.staff,
   user = UserRole.user,
 }
-registerEnumType(UserRoleWithoutSupperAdmin, {
-  name: 'UserRoleWithoutSupperAdmin',
-});
+
+@InputType()
+export class UserRegisterInput {
+  @Field()
+  email: string;
+
+  @Field()
+  password: string;
+
+  @Field(() => String, { nullable: false })
+  firstName: string;
+
+  @Field(() => String, { nullable: true })
+  lastName?: string;
+
+  @Field(() => String, { nullable: true })
+  phoneNumber?: string;
+
+  @Field(() => UserRole, { nullable: true, defaultValue: UserRole.admin })
+  role?: keyof typeof UserRoleWithoutSupperAdmin;
+}
 
 @ArgsType()
 export class LoginArgs {
@@ -39,18 +58,10 @@ export class LoginWithIdTokenArgs {
 }
 
 @ArgsType()
-export class RegisterArgs {
-  @Field()
-  email: string;
-
-  @Field()
-  password: string;
-
-  @Field(() => UserRoleWithoutSupperAdmin, {
-    nullable: true,
-    defaultValue: UserRoleWithoutSupperAdmin.admin,
-  })
-  role: UserRoleWithoutSupperAdmin;
+export class UserRegisterArgs {
+  @Field(() => UserRegisterInput, { nullable: false })
+  @Type(() => UserRegisterInput)
+  data!: InstanceType<typeof UserRegisterInput>;
 }
 
 @ArgsType()

@@ -28,15 +28,18 @@
     "graphql": "^16.8.1",
     "graphql-type-json": "^0.3.2",
     "next": "14.0.4",
+    "next-auth": "^4.24.7",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
     "prisma": "^5.9.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-hook-form": "^7.50.1",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.0",
     "slug": "^8.2.3",
-    "tslib": "^2.3.0"
+    "tslib": "^2.3.0",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^5.0.2",

@@ -1,0 +1,29 @@
+mutation login($email: String!, $password: String!) {
+  login(email: $email, password: $password) {
+    accessToken
+    refreshToken
+    expireTime
+    profile {
+      id
+      avatarUrl
+      firstName
+      lastName
+      email
+    }
+  }
+}
+
+mutation loginWithIdToken($idToken: String!, $role: UserRole, $provider: SignInProvider) {
+  loginWithIdToken(idToken: $idToken, role: $role, provider: $provider) {
+    accessToken
+    expireTime
+    refreshToken
+    profile {
+      id
+      firstName
+      lastName
+      email
+      avatarUrl
+    }
+  }
+}

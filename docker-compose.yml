@@ -4,7 +4,7 @@ services:
   api-db:
     container_name: court-booking-db
     image: postgres:14
-    env_file: ./.db.env
+    env_file: ./.env
     healthcheck:
       test: ['CMD-SHELL', 'pg_isready -d $$POSTGRES_DB -U $$POSTGRES_USER']
       interval: 1s

@@ -13,7 +13,7 @@ import {
   LoginResult,
   LoginWithIdTokenArgs,
   RefreshTokenResult,
-  RegisterArgs,
+  UserRegisterArgs
 } from './auth.type';
 
 @Injectable()
@@ -31,11 +31,8 @@ export class AuthService {
       clientId: this.configService.get<string>('GOOGLE_CLIENT_ID'),
       clientSecret: this.configService.get<string>('GOOGLE_CLIENT_SECRET'),
     });
-    this.accessTokenExpiresIn =
-      this.configService.get<number>('JWT_EXPIRES_IN');
-    this.refreshTokenExpiresIn = this.configService.get<number>(
-      'JWT_REFRESH_TOKEN_EXPIRES_IN'
-    );
+    this.accessTokenExpiresIn = this.configService.get<number>('JWT_EXPIRES_IN');
+    this.refreshTokenExpiresIn = this.configService.get<number>('JWT_REFRESH_TOKEN_EXPIRES_IN');
   }
 
   async login(args: LoginArgs): Promise<LoginResult> {
@@ -46,13 +43,11 @@ export class AuthService {
           email: args.email,
         },
       });
-      if (!user)
-        throw new HttpException("User doesn't exists.", HttpStatus.NOT_FOUND);
+      if (!user) throw new HttpException('Email or password is not correct', HttpStatus.NOT_FOUND);
 
       // compare password
       const isPassword = comparePassword(args.password, user.password);
-      if (!isPassword)
-        throw new HttpException('Password incorrect.', HttpStatus.BAD_REQUEST);
+      if (!isPassword) throw new HttpException('Email or is not correct', HttpStatus.BAD_REQUEST);
 
       return {
         accessToken: this.jwtService.sign({
@@ -74,10 +69,7 @@ export class AuthService {
         profile: user,
       };
     } catch (error) {
-      throw new HttpException(
-        error?.message ?? 'Internal server.',
-        HttpStatus.INTERNAL_SERVER_ERROR
-      );
+      throw new HttpException(error?.message ?? 'Internal server.', HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
@@ -88,8 +80,7 @@ export class AuthService {
         idToken,
         audience: this.configService.get<string>('GOOGLE_CLIENT_ID'),
       });
-      const { email, sub, given_name, family_name, picture } =
-        loginTicket.getPayload();
+      const { email, sub, given_name, family_name, picture } = loginTicket.getPayload();
 
       // get first user match with email
       let user = await this.userService.findFirst({
@@ -134,39 +125,25 @@ export class AuthService {
         profile: user,
       };
     } catch (error) {
-      throw new HttpException(
-        error?.message ?? 'Internal server.',
-        HttpStatus.INTERNAL_SERVER_ERROR
-      );
+      throw new HttpException(error?.message ?? 'Internal server.', HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
-  async register(args: RegisterArgs): Promise<User> {
+  async register({ data }: UserRegisterArgs): Promise<User> {
     try {
       // check user valid
       const user = await this.userService.findFirst({
         where: {
-          email: args.email,
+          email: data.email,
         },
       });
-      if (user)
-        throw new HttpException('User already exists.', HttpStatus.CONFLICT);
+      if (user) throw new HttpException('User already exists.', HttpStatus.CONFLICT);
 
-      const hashedPassword = hashPassword(args.password);
-      const newUser = await this.userService.create({
-        data: {
-          email: args.email,
-          role: args.role,
-          password: hashedPassword,
-          emailVerified: true,
-        },
-      });
+      const hashedPassword = hashPassword(data.password);
+      const newUser = await this.userService.create({ data: { ...data, password: hashedPassword } });
       return newUser;
     } catch (error) {
-      throw new HttpException(
-        error?.message ?? 'Internal server.',
-        HttpStatus.INTERNAL_SERVER_ERROR
-      );
+      throw new HttpException(error?.message ?? 'Internal server.', HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
@@ -174,10 +151,7 @@ export class AuthService {
     try {
       const payload = this.jwtService.verify<JwtPayload>(refreshToken);
       if (!payload.isRefreshToken)
-        throw new HttpException(
-          'Tokens are not used for refreshing',
-          HttpStatus.BAD_REQUEST
-        );
+        throw new HttpException('Tokens are not used for refreshing', HttpStatus.BAD_REQUEST);
 
       return {
         accessToken: this.jwtService.sign({
@@ -188,10 +162,7 @@ export class AuthService {
         }),
       };
     } catch (error) {
-      throw new HttpException(
-        error?.message ?? 'Internal server.',
-        HttpStatus.INTERNAL_SERVER_ERROR
-      );
+      throw new HttpException(error?.message ?? 'Internal server.', HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 }

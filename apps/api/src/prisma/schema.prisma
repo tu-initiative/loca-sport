@@ -24,13 +24,13 @@ model User {
   avatarId  String?
   avatar    File?   @relation(fields: [avatarId], references: [id])
 
-  firstName      String?
+  firstName      String
   lastName       String?
   email          String          @unique
   emailVerified  Boolean         @default(false)
   password       String
   phoneNumber    String?
-  signInProvider SignInProvider?
+  signInProvider SignInProvider? @default(credentials)
   status         UserStatus      @default(active)
   role           UserRole        @default(admin)
   createdAt      DateTime        @default(now())
@@ -69,4 +69,5 @@ enum FileProvider {
 
 enum SignInProvider {
   google
+  credentials
 }

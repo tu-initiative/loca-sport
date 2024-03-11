@@ -44,8 +44,7 @@ Thumbs.db
 .next
 
 # environment files
-.db.env
-apps/api/.env
+**/.env
 
 # generated files
 apps/api/src/@generated
